@@ -1,36 +1,55 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# ---- Python / Django ----
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+db.sqlite3
+*.log
+*.pot
+*.py[co]
+__pycache__/
+local_settings.py
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+# Virtual environments
+env/
+venv/
+ENV/
+.venv/
+*.egg-info/
+.eggs/
+*.egg
 
-# testing
-/coverage
+# Static & media files (collected/generated)
+staticfiles/
+media/
 
-# next.js
-/.next/
-/out/
+# Django cache
+*.cache
+*.mo
 
-# production
-/build
+# ---- Environment ----
+.env
+.env.*   # dotenv variants (like .env.local, .env.production)
 
-# misc
-.DS_Store
-*.pem
-
-# debug
+# ---- Node / Next.js ----
+node_modules/
+.next/
+out/
+dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
-# local env files
-.env*.local
-.env
+# lockfiles (you may want to commit ONE of these depending on package manager)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
 
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# ---- Editor / OS ----
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
