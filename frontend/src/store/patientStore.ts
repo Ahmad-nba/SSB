@@ -5,7 +5,7 @@ export type Status =
   | "Scheduled"
   | "Checked In"
   | "Pre-Procedure"
-  | "In Progress"
+  | "In-Progress"
   | "Closing"
   | "Recovery"
   | "Complete"

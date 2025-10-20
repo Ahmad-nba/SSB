@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 const workflowSteps: Status[] = [
   "Checked In",
   "Pre-Procedure",
-  "In Progress",
+  "In-Progress",
   "Closing",
   "Recovery",
   "Complete",
