@@ -32,6 +32,7 @@ interface PatientStore {
   setPatients: (patients: Patient[]) => void;
   setSelectedPatient: (patient: Patient | null) => void;
   clearSelectedPatient: () => void;
+  fetchPatients: () => Promise<void>;
   findPatientByPatientNumber: (patientNumber: string) => Promise<Patient>;
   updatePatientStatus: (
     patientNumber: string,
@@ -48,6 +49,44 @@ export const usePatientStore = create<PatientStore>((set, get) => ({
   setSelectedPatient: (patient) => set({ selectedPatient: patient }),
   clearSelectedPatient: () => set({ selectedPatient: null }),
 
+  // ✅ Fetch all patients
+  fetchPatients: async () => {
+    const token = useAuthStore.getState().token;
+
+    try {
+      const res = await fetch("http://localhost:8000/api/patients/list/", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) throw new Error("Failed to fetch patients");
+      const data = await res.json();
+
+      // Normalize each patient record
+      const normalized = data.map((p: any) => ({
+        patientNumber: p.code,
+        firstName: p.first_name,
+        lastName: p.last_name,
+        contactEmail: p.email,
+        phoneNumber: p.contact || "",
+        streetAddress: p.address || "",
+        city: p.district || "",
+        state: p.state || "",
+        country: p.country || "",
+        status: p.current_status || "Scheduled",
+        notes: p.notes || "",
+      }));
+
+      set({ patients: normalized });
+    } catch (err) {
+      console.error("Error fetching patients:", err);
+      set({ patients: [] });
+    }
+  },
+
+  // Existing search and update functions
   findPatientByPatientNumber: async (patientNumber) => {
     const token = useAuthStore.getState().token;
     try {
@@ -62,10 +101,8 @@ export const usePatientStore = create<PatientStore>((set, get) => ({
       );
 
       if (!res.ok) throw new Error("Patient not found");
-
       const data = await res.json();
 
-      // Normalize API response to match our store Patient interface
       const normalizedPatient: Patient = {
         patientNumber: data.code,
         firstName: data.first_name,
@@ -114,7 +151,6 @@ export const usePatientStore = create<PatientStore>((set, get) => ({
 
       const data = await res.json();
 
-      // Normalize updated patient too
       const updatedPatient: Patient = {
         patientNumber: data.code,
         firstName: data.first_name,
