@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { LuUserPlus, LuClipboardPlus } from "react-icons/lu";
 import { CiSearch } from "react-icons/ci";
@@ -17,8 +17,8 @@ const generatePatientId = () => {
 
 const PatientInformation = () => {
   const [patients, setPatients] = useState<IPatients[]>([]);
-  const [searchInput, setSearchInput] = useState("");
-  const [searchResults, setSearchResults] = useState<IPatients[]>([]);
+  const [_searchInput, setSearchInput] = useState("");
+  const [_searchResults, setSearchResults] = useState<IPatients[]>([]);
   const [formMessage, setFormMessage] = useState<{
     type: "success" | "error";
     text: string;

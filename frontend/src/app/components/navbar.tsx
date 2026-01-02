@@ -27,7 +27,7 @@ export default function Navbar() {
     (state) => state.role
   ) as keyof typeof navConfig;
   const navItemsi = navConfig[userRole];
-  const { fullName, role, isLoggedIn, hasHydrated } = useAuth();
+  const { fullName, role, isLoggedIn } = useAuth();
   const logout = useAuthStore((state) => state.logout);
 
   return (

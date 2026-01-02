@@ -1,7 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
 from django.forms import ModelForm
+
+from .models import CustomUser
+
 
 class CustomUserCreationForm(ModelForm):
     class Meta:
