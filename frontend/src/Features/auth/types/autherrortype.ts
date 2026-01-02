@@ -1,0 +1,4 @@
+interface AuthErrorResponse {
+  detail?: string;
+}
+

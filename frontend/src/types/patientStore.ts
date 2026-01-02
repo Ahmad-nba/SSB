@@ -80,6 +80,7 @@ export interface IPatientFormInput {
   roomNumber: string;
   age: number; // new required field
   dateOfBirth: string; // new required field
+  nationality?: string; // new required field
 }
 
 export interface IPatients extends IPatientFormInput {

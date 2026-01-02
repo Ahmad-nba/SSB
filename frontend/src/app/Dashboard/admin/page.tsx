@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useState, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { LuUserPlus, LuClipboardPlus } from "react-icons/lu";
@@ -6,6 +6,7 @@ import { CiSearch } from "react-icons/ci";
 import ProtectedRoute from "@/components/guards/withAuthRedirect";
 import { IPatientFormInput, IPatients } from "@/types/patientStore";
 import { useAuthStore } from "@/Features/auth/store/useAuthStore";
+import { InputFieldProps } from "@/Features/auth/types/dashboardInputfieldtypes";
 
 // Utility: generate unique 6-character alphanumeric patient code
 const generatePatientId = () => {
@@ -15,10 +16,17 @@ const generatePatientId = () => {
   ).join("");
 };
 
+// city infor that will be used in the form
+const locationFields: (keyof IPatientFormInput)[] = [
+  "city",
+  "state",
+  "country",
+];
+
 const PatientInformation = () => {
-  const [patients, setPatients] = useState<IPatients[]>([]);
-  const [_searchInput, setSearchInput] = useState("");
-  const [_searchResults, setSearchResults] = useState<IPatients[]>([]);
+  const [, setPatients] = useState<IPatients[]>([]);
+  const [, setSearchInput] = useState("");
+  // const [, setSearchResults] = useState<IPatients[]>([]);
   const [formMessage, setFormMessage] = useState<{
     type: "success" | "error";
     text: string;
@@ -127,17 +135,20 @@ const PatientInformation = () => {
       //   throw new Error(`Failed: ${res.statusText} - ${JSON.stringify(dataR)}`);
       // }
       const data = await res.json();
-      if (!res.ok) throw new Error(`Failed to add patient: ${data.detail || res.statusText}`);
+      if (!res.ok)
+        throw new Error(
+          `Failed to add patient: ${data.detail || res.statusText}`
+        );
       setPatients((prev) => [...prev, data.patient || patient]);
       setFormMessage({
         type: "success",
         text: `Patient ${data.patient?.code} added successfully`,
       });
       reset();
-    } catch (err: any) {
+    } catch (err: unknown) {
       setFormMessage({
         type: "error",
-        text: err.message || "Unexpected error occurred",
+        text: err instanceof Error ? err.message : "Unexpected error occurred",
       });
     } finally {
       setLoading(false);
@@ -192,7 +203,8 @@ const PatientInformation = () => {
                 Add New Patient
               </h2>
               <p className="text-viking-700 text-base">
-                Enter patient information to start tracking their surgical progress.
+                Enter patient information to start tracking their surgical
+                progress.
               </p>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
@@ -236,8 +248,9 @@ const PatientInformation = () => {
                   errors={errors}
                   required
                 />
+                {/* 🌆 City, State, Country */}
                 <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {["city", "state", "country"].map((field) => (
+                  {locationFields.map((field) => (
                     <InputField
                       key={field}
                       id={field}
@@ -374,7 +387,9 @@ const PatientInformation = () => {
                 type="submit"
                 disabled={loading}
                 className={`bg-accentMain text-white py-3 rounded-md flex justify-center items-center gap-2 w-full font-semibold transition-colors ${
-                  loading ? "opacity-50 cursor-not-allowed" : "hover:bg-viking-800"
+                  loading
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:bg-viking-800"
                 }`}
               >
                 <LuClipboardPlus className="size-6" />
@@ -397,7 +412,7 @@ const InputField = ({
   required,
   placeholder,
   type,
-}: any) => (
+}: InputFieldProps) => (
   <div className="flex flex-col">
     <label htmlFor={id} className="block text-viking-800 mb-1">
       {label}
@@ -407,10 +422,7 @@ const InputField = ({
       placeholder={placeholder}
       type={type}
       className="border border-gray-400 rounded-md px-4 py-1"
-      {...register(
-        id,
-        required ? { required: `${label} is required` } : {}
-      )}
+      {...register(id, required ? { required: `${label} is required` } : {})}
     />
     {errors[id] && (
       <p className="text-red-600 text-sm mt-1">{errors[id]?.message}</p>

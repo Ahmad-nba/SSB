@@ -2,8 +2,8 @@
 
 import { useEffect } from "react";
 import { usePatientStore } from "@/store/patientStore";
-import { statusColors } from "@/utils/statusColors";
-import { headers } from "next/headers";
+// import { statusColors } from "@/utils/statusColors";
+// import { headers } from "next/headers";
 import { useAuthStore } from "@/Features/auth/store/useAuthStore";
 
 export default function ActivePatientCard() {

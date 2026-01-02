@@ -25,7 +25,7 @@ export default function SearchPatient() {
       setSearching(true);
       await findPatientByPatientNumber(trimmedId);
     } catch (err) {
-      alert("Patient not found.");
+      alert(`Patient not found: ${err}`);
       clearSelectedPatient();
     } finally {
       setSearching(false);

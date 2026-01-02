@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 
 export const useAuth = () => {
-  const { user, role, token, hasHydrated, loadUser, setHydrated } = useAuthStore();
+  const { user, role, token, hasHydrated, loadUser } = useAuthStore();
 
   // Debug log to track hydration and user state
   console.log("Hydrated:", hasHydrated, "User:", user, "Token:", token, "Role:", role);

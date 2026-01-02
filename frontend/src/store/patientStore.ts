@@ -1,4 +1,5 @@
 import { useAuthStore } from "@/Features/auth/store/useAuthStore";
+import { PatientApiResponse } from "@/types/patientApityping";
 import { create } from "zustand";
 
 export type Status =
@@ -23,7 +24,7 @@ export interface Patient {
   country: string;
   status: Status;
   notes?: string;
-  [key: string]: any;
+  // [key: string]: any;
 }
 
 interface PatientStore {
@@ -41,7 +42,7 @@ interface PatientStore {
   ) => Promise<{ success: boolean; message?: string }>;
 }
 
-export const usePatientStore = create<PatientStore>((set, get) => ({
+export const usePatientStore = create<PatientStore>((set, ) => ({
   patients: [],
   selectedPatient: null,
 
@@ -65,7 +66,7 @@ export const usePatientStore = create<PatientStore>((set, get) => ({
       const data = await res.json();
 
       // Normalize each patient record
-      const normalized = data.map((p: any) => ({
+      const normalized = data.map((p: PatientApiResponse) => ({
         patientNumber: p.code,
         firstName: p.first_name,
         lastName: p.last_name,
@@ -175,9 +176,17 @@ export const usePatientStore = create<PatientStore>((set, get) => ({
       }));
 
       return { success: true };
-    } catch (err: any) {
-      console.error(err);
-      return { success: false, message: err.message };
-    }
+    } catch (err: unknown) {
+  console.error(err);
+
+  return {
+    success: false,
+    message:
+      err instanceof Error
+        ? err.message
+        : "Failed to update patient status",
+  };
+}
+
   },
 }));
