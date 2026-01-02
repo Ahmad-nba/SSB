@@ -1,0 +1,19 @@
+[MASTER]
+load-plugins = pylint_django
+django-settings-module = backend.settings
+
+[MESSAGES CONTROL]
+disable =
+    missing-module-docstring,
+    missing-class-docstring,
+    missing-function-docstring,
+    too-few-public-methods,
+    no-member,
+    import-error
+
+[DESIGN]
+max-args = 10
+max-locals = 20
+
+[FORMAT]
+max-line-length = 88

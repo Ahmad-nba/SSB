@@ -1,7 +1,9 @@
 # services.py
-from django.core.mail import send_mail
 from django.conf import settings
+from django.core.mail import send_mail
+
 from .utils import generate_invite_token  # our signing util
+
 
 def send_doctor_invite(email):
     token = generate_invite_token(email)

@@ -1,9 +1,10 @@
+from django.contrib.auth import authenticate
+from django.contrib.auth.password_validation import validate_password
 from django.core.validators import validate_email
-from .models import CustomUser
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from django.contrib.auth.password_validation import validate_password
-from django.contrib.auth import authenticate
+
+from .models import CustomUser
 
 
 class UserOnboardSerializer(serializers.ModelSerializer):
@@ -37,6 +38,7 @@ class UserOnboardSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
@@ -50,10 +52,12 @@ class UserLoginSerializer(serializers.Serializer):
             if not user:
                 raise serializers.ValidationError("Invalid credentials.")
         else:
-            raise serializers.ValidationError("Both email and password are required.")
+            raise serializers.ValidationError(
+                "Both email and password are required.")
 
         attrs['user'] = user
         return attrs
+
 
 class InviteDoctorSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
@@ -61,11 +65,13 @@ class InviteDoctorSerializer(serializers.Serializer):
     def validate_email(self, value):
         # Optional: check if a doctor with this email already exists
         if CustomUser.objects.filter(email=value, role=CustomUser.DOCTOR).exists():
-            raise serializers.ValidationError("A doctor with this email already exists.")
+            raise serializers.ValidationError(
+                "A doctor with this email already exists.")
         return value
+
 
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('id, email, username, is_active, is_staff')
-        read_only_fields = ('id, is_active, is_staff')
+        fields = ('id', 'email', 'username', 'role', 'is_active')
+        read_only_fields = ('id', 'is_active')
