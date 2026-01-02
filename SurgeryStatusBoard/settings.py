@@ -13,7 +13,8 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-eziee%xhld*yfgyr)!)7d%1iuze0e*0l-m1rjgn!$g4w-p0ngi'
 DEBUG = True
-ALLOWED_HOSTS = []
+# we define ALLOWED_HOSTS to accept all hosts for development purposes cause we dont know hat url will be after deployment
+ALLOWED_HOSTS = ["*"]
 
 # --- APPLICATIONS ------------------------------------------------------------
 
