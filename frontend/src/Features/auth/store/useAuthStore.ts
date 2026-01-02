@@ -12,7 +12,10 @@ interface AuthStore {
   setHydrated: () => void;
   isLoggedIn: () => boolean;
 
-  login: (email: string, password: string) => Promise<{
+  login: (
+    email: string,
+    password: string
+  ) => Promise<{
     success: boolean;
     user?: User;
     error?: string;
@@ -44,10 +47,11 @@ export const useAuthStore = create<AuthStore>()(
       // Simplified: only check if user object exists
       isLoggedIn: () => !!get().user,
 
+      // login: async (email, password) => {
+
       login: async (email, password) => {
         try {
           const data = await loginUser(email, password);
-          console.log("Login response:", data);
 
           if (!data.user) {
             return { success: false, error: "Invalid response from server" };
@@ -56,19 +60,45 @@ export const useAuthStore = create<AuthStore>()(
           set({
             user: data.user,
             role: data.user.role || "GUEST",
-            token: data.access, // still store token if needed
+            token: data.access,
             refresh: data.refresh,
           });
 
           return { success: true, user: data.user };
-        } catch (error: any) {
-          console.error("Login error:", error);
+        } catch (err: unknown) {
+          console.error("Login error:", err);
+
           return {
             success: false,
-            error: error.response?.data || "Login failed",
+            error: err instanceof Error ? err.message : "Login failed",
           };
         }
       },
+
+      //   try {
+      //     const data = await loginUser(email, password);
+      //     console.log("Login response:", data);
+
+      //     if (!data.user) {
+      //       return { success: false, error: "Invalid response from server" };
+      //     }
+
+      //     set({
+      //       user: data.user,
+      //       role: data.user.role || "GUEST",
+      //       token: data.access, // still store token if needed
+      //       refresh: data.refresh,
+      //     });
+
+      //     return { success: true, user: data.user };
+      //   } catch (error: any) {
+      //     console.error("Login error:", error);
+      //     return {
+      //       success: false,
+      //       error: error.response?.data || "Login failed",
+      //     };
+      //   }
+      // },
 
       logout: async () => {
         try {
@@ -99,7 +129,7 @@ export const useAuthStore = create<AuthStore>()(
 
           return { success: true, user: data.user || data };
         } catch (err) {
-          console.warn("Token expired or invalid, clearing session");
+          console.warn(`Token expired or invalid, clearing session: ${err}`);
           set({ user: null, role: "GUEST", token: null, refresh: null });
           return { success: false, error: "Failed to load user" };
         }

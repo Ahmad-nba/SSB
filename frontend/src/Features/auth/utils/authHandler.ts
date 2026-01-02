@@ -1,7 +1,7 @@
-import axios from "axios";
-import { useAuthStore } from "../store/useAuthStore";
+// import axios from "axios";
+// import { useAuthStore } from "../store/useAuthStore";
 
-const API_URL = "http://localhost:8000/api/auth/login/";
+// const API_URL = "http://localhost:8000/api/auth/login/";
 
 // export async function handleLogin(email: string, password: string) {
 //   try {

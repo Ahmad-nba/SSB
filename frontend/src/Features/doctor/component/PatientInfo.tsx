@@ -1,17 +1,17 @@
 "use client";
 import { MapPin, Phone, Mail, User } from "lucide-react";
 import { usePatientStore } from "@/store/patientStore";
-import { statusColors } from "@/utils/statusColors";
+// import { statusColors } from "@/utils/statusColors";
 
-const statusDescriptions: Record<string, string> = {
-  "Checked In": "In the facility awaiting their procedure",
-  "Pre-Procedure": "Undergoing surgical preparation",
-  "In Progress": "Surgical procedure is underway",
-  "Closing": "Surgery completed",
-  "Recovery": "Patient transferred to post-surgery recovery room",
-  "Complete": "Recovery completed, patient awaiting dismissal",
-  "Dismissal": "Transferred to hospital room or patient has left",
-};
+// const statusDescriptions: Record<string, string> = {
+//   "Checked In": "In the facility awaiting their procedure",
+//   "Pre-Procedure": "Undergoing surgical preparation",
+//   "In Progress": "Surgical procedure is underway",
+//   "Closing": "Surgery completed",
+//   "Recovery": "Patient transferred to post-surgery recovery room",
+//   "Complete": "Recovery completed, patient awaiting dismissal",
+//   "Dismissal": "Transferred to hospital room or patient has left",
+// };
 
 export default function PatientInfo() {
   const patient = usePatientStore((state) => state.selectedPatient);
@@ -25,7 +25,7 @@ export default function PatientInfo() {
   }
 
   const badgeClass =  "bg-slate-400 text-white";
-  const description = statusDescriptions[patient.status] || "Status unknown";
+  // const description = statusDescriptions[patient.status] || "Status unknown";
 
   return (
     <div className="bg-white border rounded-2xl shadow-sm p-6 max-w-2xl mx-auto mt-4">
