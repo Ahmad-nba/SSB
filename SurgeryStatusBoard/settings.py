@@ -5,6 +5,8 @@ Django settings for SurgeryStatusBoard project.
 import os
 from datetime import timedelta
 from pathlib import Path
+import dj_database_url
+
 
 # --- BASE CONFIG -------------------------------------------------------------
 
@@ -69,15 +71,23 @@ WSGI_APPLICATION = 'SurgeryStatusBoard.wsgi.application'
 
 # --- DATABASE ---------------------------------------------------------------
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'ssb_db',
+#         'USER': 'ssb_user',
+#         'PASSWORD': 'gazal18100',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ssb_db',
-        'USER': 'ssb_user',
-        'PASSWORD': 'gazal18100',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    "default": dj_database_url.parse(
+        os.environ["DATABASE_URL"],  # <-- use [] instead of .get()
+        conn_max_age=600,
+        ssl_require=True,
+    )
 }
 
 # --- AUTHENTICATION ----------------------------------------------------------
