@@ -165,7 +165,7 @@ DEFAULT_FROM_EMAIL = "ahmadshamurannba@gmail.com"
 
 # --- FRONTEND & CORS ---------------------------------------------------------
 
-FRONTEND_URL = "https://ssb-delta.vercel.app/"
+FRONTEND_URL = "https://ssb-delta.vercel.app"
 
 CORS_ALLOWED_ORIGINS = [
     FRONTEND_URL,
