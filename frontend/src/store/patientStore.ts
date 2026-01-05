@@ -42,6 +42,8 @@ interface PatientStore {
   ) => Promise<{ success: boolean; message?: string }>;
 }
 
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
 export const usePatientStore = create<PatientStore>((set, ) => ({
   patients: [],
   selectedPatient: null,
@@ -55,7 +57,7 @@ export const usePatientStore = create<PatientStore>((set, ) => ({
     const token = useAuthStore.getState().token;
 
     try {
-      const res = await fetch("http://localhost:8000/api/patients/list/", {
+      const res = await fetch(`${API_BASE}/api/patients/list/`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
