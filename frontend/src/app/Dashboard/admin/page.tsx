@@ -61,10 +61,13 @@ const PatientInformation = () => {
     },
   });
 
+// setting the base end point url
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
   // Fetch doctors
   useEffect(() => {
     if (!token) return;
-    fetch("http://localhost:8000/api/doctors/list/", {
+    fetch(`${API_BASE}/api/doctors/list/`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
@@ -77,7 +80,7 @@ const PatientInformation = () => {
     if (!token) return;
     (async () => {
       try {
-        const res = await fetch("http://localhost:8000/api/patients/list/", {
+        const res = await fetch(`${API_BASE}/api/patients/list/`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -121,7 +124,7 @@ const PatientInformation = () => {
         country: patient.country || "",
         date_of_birth: patient.dateOfBirth || "",
       };
-      const res = await fetch("http://localhost:8000/api/patients/create/", {
+      const res = await fetch(`${API_BASE}/api/patients/create/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
