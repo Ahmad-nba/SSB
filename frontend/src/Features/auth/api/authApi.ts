@@ -12,7 +12,7 @@ if (!API_BASE) {
 export async function loginUser(email: string, password: string) {
   try {
     const res = await axios.post(
-      `${API_BASE}/auth/login/`,
+      `${API_BASE}/api/auth/login/`,
       { email, password },
       { headers: { "Content-Type": "application/json" } }
     );
@@ -36,12 +36,12 @@ export async function loginUser(email: string, password: string) {
 
 export async function logoutUser(refresh: string) {
   // optional if you implement logout on backend
-  const res = await axios.post(`${API_BASE}/auth/logout/`, { refresh });
+  const res = await axios.post(`${API_BASE}/api/auth/logout/`, { refresh });
   return res.data;
 }
 
 export async function fetchCurrentUser(token: string) {
-  const res = await axios.get(`${API_BASE}/auth/me/`, {
+  const res = await axios.get(`${API_BASE}/api/auth/me/`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return res.data;

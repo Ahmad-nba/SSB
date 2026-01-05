@@ -7,4 +7,6 @@ urlpatterns = [
     path('invite/doctor/', views.InviteDoctorView.as_view(),
          name='invite doctor to SSB'),
     path('login/', views.LoginView.as_view(), name='login'),
+    path('logout/', views.LogoutView.as_view(), name='logout'),
+    path('me/', views.MeView.as_view(), name='current user'),
 ]
