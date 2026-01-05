@@ -15,7 +15,7 @@ SECRET_KEY = "django-insecure-eziee%xhld*yfgyr)!)7d%1iuze0e*0l-m1rjgn!$g4w-p0ngi
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
 # we define ALLOWED_HOSTS to accept all hosts for development purposes cause we dont know hat url will be after deployment
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
+ALLOWED_HOSTS = [h.strip() for h in os.getenv("ALLOWED_HOSTS", "").split(",") if h.strip()]
 
 # --- APPLICATIONS ------------------------------------------------------------
 
