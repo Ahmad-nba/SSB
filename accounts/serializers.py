@@ -44,20 +44,26 @@ class UserLoginSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True)
 
     def validate(self, attrs):
-        email = attrs.get('email')
-        password = attrs.get('password')
+        email = attrs.get("email")
+        password = attrs.get("password")
 
-        if email and password:
-            user = authenticate(username=email, password=password)
-            if not user:
-                raise serializers.ValidationError("Invalid credentials.")
-        else:
-            raise serializers.ValidationError(
-                "Both email and password are required.")
+        if not email or not password:
+            raise serializers.ValidationError("Both email and password are required.")
 
-        attrs['user'] = user
+        request = self.context.get("request")
+
+        # Key fix: authenticate using email (since USERNAME_FIELD = 'email')
+        user = authenticate(request=request, email=email, password=password)
+
+        # Fallback (some setups still expect username kwarg)
+        if user is None:
+            user = authenticate(request=request, username=email, password=password)
+
+        if user is None:
+            raise serializers.ValidationError({"detail": "Invalid credentials."})
+
+        attrs["user"] = user
         return attrs
-
 
 class InviteDoctorSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
