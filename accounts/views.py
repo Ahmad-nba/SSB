@@ -32,21 +32,20 @@ class InviteDoctorView(generics.GenericAPIView):
 
 class LoginView(APIView):
     def post(self, request):
-        serializer = UserLoginSerializer(data=request.data)
-        # Validate the serializer
+        serializer = UserLoginSerializer(
+            data=request.data,
+            context={"request": request},
+        )
         serializer.is_valid(raise_exception=True)
-        # signal the pylance or linter that validated_data is not None and is a dictionary at runtime
-        assert serializer.validated_data is not None
-        assert isinstance(serializer.validated_data, dict)
-        user = serializer.validated_data["user"]
+        user = serializer.validated_data["user"] #
         refresh = RefreshToken.for_user(user)
         return Response({
-            'refresh': str(refresh),
-            'access': str(refresh.access_token),
-            'user': {
-                'email': user.email,
-                'username': user.username,
-                'role': user.role
+            "refresh": str(refresh),
+            "access": str(refresh.access_token),
+            "user": {
+                "email": user.email,
+                "username": user.username,
+                "role": user.role
             }
         }, status=status.HTTP_200_OK)
 
