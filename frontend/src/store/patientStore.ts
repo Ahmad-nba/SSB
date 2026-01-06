@@ -94,7 +94,7 @@ export const usePatientStore = create<PatientStore>((set, ) => ({
     const token = useAuthStore.getState().token;
     try {
       const res = await fetch(
-        `http://localhost:8000/api/patients/search/?patientNumber=${patientNumber}`,
+        `${API_BASE}/api/patients/search/?patientNumber=${patientNumber}`,
         {
           headers: {
             "Content-Type": "application/json",
