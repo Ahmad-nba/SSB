@@ -5,6 +5,10 @@ import Navbar from "./components/navbar";
 import Footer from "./components/footer";
 import { Toaster } from "react-hot-toast";
 
+// adding vercel analytics
+import { Analytics } from '@vercel/analytics/next';
+
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -35,6 +39,7 @@ export default function RootLayout({
           <Navbar />
         </header>
         {children}
+        <Analytics />
         <footer>
           <Footer />
         </footer>
